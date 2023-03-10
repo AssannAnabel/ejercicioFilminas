@@ -1,0 +1,27 @@
+[
+    {"name":"Francisco",
+    "lastName":"Ortiz",
+    "note":7
+    },
+
+    {"name":"Maria",
+    "lastName":"Fernandez",
+    "note":9
+    },
+
+    {"name":"Nicolas",
+    "lastName":"vazquez",
+    "note":4
+    },
+
+    {"name":"Romina",
+    "lastName":"Melgar",
+    "note":10
+    },
+    
+    {
+    "name":"Emiliano",
+    "lastName":"Lopez",
+    "note":6
+    }
+]
