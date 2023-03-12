@@ -64,12 +64,14 @@ export default class SchoolManager{
        }
         }
 
-let administrator= new SchoolManager();
-//let oscar:Teacher= new Teacher("Oscar", "Ramos");
-//administrator.consultStudents;//mal array vacio
+let administrator= new SchoolManager;
+//let oscar: Teacher= new Teacher("Oscar", "Ramos");
+let federico: Student= new Student("Federico","Morales", 8);
+//administrator.consultStudents();//mal array vacio
 //console.log(administrator.consultStudents);//mal
 //administrator.approved("Emiliano",students);//no funciona
 //console.log(Teacher);//funciona
 //console.log(Student);//funciona
+administrator.enroll(federico,students);
 //administrator.dismiss("ricardo", teacher);//no funiona vacio
 //administrator.hire(oscar, teacher);//No funciona,se rompe
