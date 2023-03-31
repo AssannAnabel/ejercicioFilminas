@@ -1,4 +1,4 @@
-export default class Student{
+export class Student{
     name:string;
     lastName:string;
     note:number;
@@ -9,5 +9,3 @@ export default class Student{
     }
 
 }
-//let pepe=new Students("pepe","perez",9);
-//console.log(pepe);

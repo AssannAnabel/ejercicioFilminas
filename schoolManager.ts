@@ -10,68 +10,79 @@ mayor que 7).
 alumnos y maestros, y debe poder 
 matricular/contratar y expulsar/despedir a los  */
 
-import Student from './student'
-import Teacher from './teacher'
-import * as fs from 'fs';
+import {Student} from './Student'
+import {Teacher} from './Teacher'
+import * as fs from 'fs'
+import * as readLineSync from 'readline-sync'
 
-let students:Student[]=[];
 
-const data= fs.readFileSync('./student.json','utf8');
-const children=JSON.parse(data);
-    for(let i=0; i<children.lenght;i++){
-    students.push(children[i]);
-    }
 
-let teacher:Teacher[]=[];
-
-const data1=fs.readFileSync("./teacher.json","utf8");
-const miss=JSON.parse(data1);
-    for(let i=0; i<miss.lenght;i++){
-    teacher.push(miss[i]);
-    }
-
-export default class SchoolManager{
+export class SchoolManager{
+    dataStudent(){return JSON.parse(fs.readFileSync("./students.json","utf-8"))}
+    dataTeacher(){return JSON.parse(fs.readFileSync("./teachers.json","utf-8"))}
     consultStudents(){
-        console.log(students);
-        }
-    approved(name:string,array:Student[]){
-        let value:any=array.find((students)=> students.name===(name));
-            console.log(value);
-        if(value.note >=7){
-            console.log(name, "estas Aprobado");
+        console.log(this.dataStudent());
+    }
+    approved(name:string){
+        let student:any=this.dataStudent().find((student:{name:string})=> student.name===name)
+        console.log(student);
+        if(student.note >=7){
+            console.log(name, "Aprobado");
         } 
             else{
-            console.log(name, "esta desaprobado");
+            console.log(name, "Desaprobado");
 
             }
         }
-        enroll(name:Student,array:Student[]){
-            array.push(name);
-            console.log(array);
+        enroll(){
+            let name=readLineSync.question("Escriba el nombre del estudiante:-->");
+            let lastName=readLineSync.question("Escriba el apellido del estudiante:-->");
+            let note=Number(readLineSync.question("Escriba la nota del estudiante:-->"))
+            let NewStudent= new Student(name,lastName,note);
+
+            let students=[...this.dataStudent(),NewStudent];
+            fs.writeFileSync("./students.json",JSON.stringify(students,null,2));
+            console.log(this.dataStudent());
         }
 
-       hire(name:Teacher,array:Teacher[]){
-        array.push(name);
-        console.log(array);
+       hire(){
+        let name=readLineSync.question("Escriba el nombre del docente:-->");
+        let lastName=readLineSync.question("escriba el apellido del docente:-->");
+        let newTeacher=new Teacher(name,lastName);
+
+        let teachers=[...this.dataTeacher(),newTeacher];
+        fs.writeFileSync("./teachers.json",JSON.stringify(teachers,null,2));
+            console.log(this.dataTeacher);
        }
 
-       dismiss(name:string,array:Teacher[]){
-        let dismiss=array.findIndex((tutor)=>tutor.name===name);
-        if(dismiss>=0){
-            array.splice(dismiss,1);
-            console.log(dismiss,"fue despedido");
+       dismissTeacher(name:string){
+            let teachers=this.dataTeacher();
+            let dismissTeacher= teachers.findIndex((teacher:{name:string})=>teacher.name===name);
+            if(dismissTeacher>=0){
+                teachers.splice(dismissTeacher,1);
+                console.log(name,"Fue despedido");
+                fs.writeFileSync("./teachers.json",JSON.stringify(name,null,2));
+                console.log(this.dataTeacher());
+            }  
+                else{
+                console.log(name ,"sigue trabajando");
+            }
         }
-       }
+        expelStudent(name:string){
+            let students=this.dataStudent();
+            let expelStudent= students.findIndex((students:{name:string})=>students.name===name);
+            if(expelStudent>=0){
+                students.splice(expelStudent,1);
+                console.log(name,"Fue expulsado");
+                fs.writeFileSync("./students.json",JSON.stringify(name,null,2));
+                console.log(this.dataStudent());
+            }  
+                else{
+                console.log("sigue matriculado",name);
+            }
+        }  
+    
         }
+       
+        
 
-let administrator= new SchoolManager;
-//let oscar: Teacher= new Teacher("Oscar", "Ramos");
-let federico: Student= new Student("Federico","Morales", 8);
-//administrator.consultStudents();//mal array vacio
-//console.log(administrator.consultStudents);//mal
-//administrator.approved("Emiliano",students);//no funciona
-//console.log(Teacher);//funciona
-//console.log(Student);//funciona
-administrator.enroll(federico,students);
-//administrator.dismiss("ricardo", teacher);//no funiona vacio
-//administrator.hire(oscar, teacher);//No funciona,se rompe
